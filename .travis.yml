@@ -1,0 +1,21 @@
+---
+
+dist: "xenial"
+language: "minimal"
+
+service:
+  - "docker"
+
+install:
+  - "make docker-build-all -j 2"
+
+script:
+  - "make lint-all"
+
+deploy:
+  provider: "script"
+  script: "make docker-push-all"
+  on: # yamllint disable rule:truthy
+    tags: true
+
+...
