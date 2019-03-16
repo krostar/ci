@@ -1,7 +1,6 @@
 FROM golang:1.11-alpine
 
-# hadolint ignore=DL3018
-RUN apk add --no-cache bash git
+RUN apk add --no-cache bash~=4.4 git~=2.20
 
 WORKDIR /app-test
 COPY scripts/common.sh .

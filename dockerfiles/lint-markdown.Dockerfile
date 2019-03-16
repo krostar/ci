@@ -1,7 +1,6 @@
-FROM node:11.8-alpine
+FROM node:11.11-alpine
 
-# hadolint ignore=DL3018
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash~=4.4
 
 RUN npm install -g \
     remark-cli@6.0.1 \

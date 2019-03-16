@@ -1,7 +1,6 @@
 FROM koalaman/shellcheck-alpine:v0.6.0
 
-# hadolint ignore=DL3018
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash~=4.4
 
 WORKDIR /app-lint
 COPY scripts/common.sh .

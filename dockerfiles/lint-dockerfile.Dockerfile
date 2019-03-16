@@ -1,8 +1,8 @@
-FROM hadolint/hadolint:v1.15.0-debian
+FROM hadolint/hadolint:v1.16.0-debian
 
 # hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install --yes --no-install-recommends bash && \
+    apt-get install --yes --no-install-recommends bash>=4.4 && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app-lint

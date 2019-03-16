@@ -1,4 +1,4 @@
-FROM golang:1.11-stretch
+FROM golang:1.12-stretch
 
 WORKDIR /app-test
 COPY scripts/common.sh .
