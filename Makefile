@@ -1,5 +1,4 @@
 DIR_ROOT        := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-DIR_DOCKERFILES := $(DIR_ROOT)/dockerfiles
 VERSION         := $(shell git describe --tags --always --dirty="-dev")
 
 # use this rule as the default make rule
@@ -21,6 +20,7 @@ lint-yaml: docker-lint-yaml					## Lint yaml files
 docker-build-all: docker-build-lint-dockerfile docker-build-lint-go docker-build-lint-markdown docker-build-lint-sh docker-build-lint-yaml docker-build-publish-go-cover docker-build-test-go-deps docker-build-test-go ## Build all containers
 
 .PHONY: docker-build-%
+docker-build-%: DIR_DOCKERFILES := $(DIR_ROOT)/dockerfiles
 docker-build-%:
 	@docker build \
 		--tag "krostar/ci:${*}.$(VERSION)" \

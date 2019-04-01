@@ -15,6 +15,7 @@ lint_dockerfile() {
 }
 
 lint_go() {
+    go get
     CGO_ENABLED=0 golangci-lint run \
         --config "$(dirname "${BASH_SOURCE[0]}")/lint-go-config.yaml"
 }
