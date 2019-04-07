@@ -13,9 +13,25 @@ exit_error() {
 }
 
 project_path_root() {
-    cd -P "$(dirname "$(dirname "${BASH_SOURCE[0]}")")" || exit 255 && pwd
+    echo "/app"
+}
+
+project_path_cmd() {
+    echo "$(project_path_root)/cmd"
+}
+
+project_path_scripts() {
+    echo "$(project_path_root)/scripts"
+}
+
+project_path_build_bin() {
+    echo "$(project_path_root)/build/bin"
+}
+
+project_repo() {
+    head -n1 "$(project_path_root)/go.mod" | cut -d' ' -f2
 }
 
 project_name() {
-    basename "$(project_path_root)"
+    basename "$(project_repo)"
 }

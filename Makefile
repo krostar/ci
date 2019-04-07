@@ -11,15 +11,13 @@ help:
 
 .PHONY: lint-all lint-dockerfile lint-markdown lint-sh lint-yaml
 lint-all: lint-dockerfile lint-markdown lint-sh lint-yaml ## Run all possible linters
-lint-dockerfile: docker-lint-dockerfile		## Lint dockerfiles
-lint-markdown: docker-lint-markdown		    ## Lint markdown files
-lint-sh: docker-lint-sh						## Lint shell files
-lint-yaml: docker-lint-yaml					## Lint yaml files
+lint-dockerfile: docker-lint-dockerfile	## Lint dockerfiles
+lint-markdown: docker-lint-markdown		## Lint markdown files
+lint-sh: docker-lint-sh					## Lint shell files
+lint-yaml: docker-lint-yaml				## Lint yaml files
 
-.PHONY: docker-build-all
-docker-build-all: docker-build-lint-dockerfile docker-build-lint-go docker-build-lint-markdown docker-build-lint-sh docker-build-lint-yaml docker-build-publish-go-cover docker-build-test-go-deps docker-build-test-go ## Build all containers
-
-.PHONY: docker-build-%
+.PHONY: docker-build-all docker-build-%
+docker-build-all: docker-build-build-go docker-build-lint-dockerfile docker-build-lint-go docker-build-lint-markdown docker-build-lint-sh docker-build-lint-yaml docker-build-publish-go-cover docker-build-test-go-deps docker-build-test-go ## Build all containers
 docker-build-%: DIR_DOCKERFILES := $(DIR_ROOT)/dockerfiles
 docker-build-%:
 	@docker build \
@@ -37,10 +35,8 @@ docker-%: docker-build-%
 		"krostar/ci:${*}.$(VERSION)" \
 		$(DOCKER_RUN_ARGS)
 
-.PHONY: docker-push-all
-docker-push-all: docker-push-lint-dockerfile docker-push-lint-go docker-push-lint-markdown docker-push-lint-sh docker-push-lint-yaml docker-push-publish-go-cover docker-push-test-go-deps docker-push-test-go
-
-.PHONY: docker-push-%
+.PHONY: docker-push-all docker-push-%
+docker-push-all: docker-push-build-go docker-push-lint-dockerfile docker-push-lint-go docker-push-lint-markdown docker-push-lint-sh docker-push-lint-yaml docker-push-publish-go-cover docker-push-test-go-deps docker-push-test-go
 docker-push-%:
 	@echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
 	docker push krostar/ci:${*}.$(VERSION)
