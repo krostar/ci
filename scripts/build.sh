@@ -41,7 +41,7 @@ build() {
     go generate ./...
 
     # build the binary
-    GOOS="${BUILD_FOR_OS:-$GOOS}" GOARCH="${BUILD_FOR_ARCH:-$GOARCH}" CGO_ENABLED=0 \
+    GOOS="${BUILD_FOR_OS:-$(go env GOOS)}" GOARCH="${BUILD_FOR_ARCH:-$(go env GOARCH)}" CGO_ENABLED=0 \
     go build -v \
         -o "$(project_path_build_bin)/${project_to_build}" \
         -ldflags="-s -w $(build_ldflags)" \
