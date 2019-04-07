@@ -38,4 +38,5 @@ docker-%: docker-build-%
 .PHONY: docker-push-all docker-push-%
 docker-push-all: docker-push-build-go docker-push-lint-dockerfile docker-push-lint-go docker-push-lint-markdown docker-push-lint-sh docker-push-lint-yaml docker-push-publish-go-cover docker-push-test-go-deps docker-push-test-go
 docker-push-%:
+	@echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
 	docker push krostar/ci:${*}.$(VERSION)

@@ -1,4 +1,4 @@
-FROM hadolint/hadolint:v1.16.0-debian
+FROM hadolint/hadolint:v1.16.3-debian
 
 # hadolint ignore=DL3008
 RUN apt-get update && \
