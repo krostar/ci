@@ -17,10 +17,15 @@ build_ldflags_xvar() {
 }
 
 build_ldflags() {
-    local -a xflags
+    local name="$1"
     local -r pkg="internal/pkg/app"
+    local -a xflags
 
-    xflags+=("$(build_ldflags_xvar "$pkg" "name" "$(project_name)")")
+    if [[ "$name" != "$(project_name)" ]]; then
+        name="$(project_name)_$name"
+    fi
+
+    xflags+=("$(build_ldflags_xvar "$pkg" "name" "$name")")
     xflags+=("$(build_ldflags_xvar "$pkg" "builtAtRaw" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')")")
     xflags+=("$(build_ldflags_xvar "$pkg" "version" "$(git describe --tags --always --dirty="-dev" 2>/dev/null || echo "0.0.0-0-gmaster")")")
 
@@ -44,7 +49,7 @@ build() {
     GOOS="${BUILD_FOR_OS:-$(go env GOOS)}" GOARCH="${BUILD_FOR_ARCH:-$(go env GOARCH)}" CGO_ENABLED=0 \
     go build -v \
         -o "$(project_path_build_bin)/${project_to_build}" \
-        -ldflags="-s -w $(build_ldflags)" \
+        -ldflags="-s -w $(build_ldflags "$project_to_build")" \
         "$project_to_build_path"
 
     if [ "${BUILD_COMPRESS:-0}" -eq 1 ]; then
