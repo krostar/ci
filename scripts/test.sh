@@ -13,14 +13,12 @@ test_go_deps() {
 }
 
 test_go() {
-    local -r timeout="${TEST_TIMEOUT:="1m"}"
+    local -a opts=("$@")
     local -r coverdir="./build/cover"
     local -r coverprofile="${coverdir}/coverage.out"
-    local -a opts=("$@")
 
     opts+=("-v")
     opts+=("-race")
-    opts+=("-timeout=${timeout}")
     opts+=("-covermode=atomic")
     opts+=("-coverprofile=${coverprofile}")
 
@@ -30,22 +28,32 @@ test_go() {
 
 test() {
     local -r test_type="$1"
+    local -a opts
+    local cmd
 
-    echo "running ${test_type} tests ..."
+    opts+=("--timeout=${TEST_TIMEOUT:="1m"}")
+    if [ -n "${TEST_RUN:=""}" ]; then
+        opts+=("-run=${TEST_RUN}")
+    fi
+
     case "$test_type" in
     "go")
-        test_go
+        cmd="test_go"
         ;;
     "go-deps")
-        test_go_deps
+        cmd="test_go_deps"
         ;;
     "go-fast")
-        test_go -short
+        cmd="test_go"
+        opts+=("-short")
         ;;
     *)
         exit_error 2 "${test_type} is not a test type"
     ;;
     esac
+
+    echo "running ${test_type} tests ..."
+    $cmd "${opts[@]}"
     echo "${test_type} tests ran without errors"
 }
 
