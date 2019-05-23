@@ -65,4 +65,9 @@ build() {
 }
 
 # $1 is the project to build
+if [ $# -ne 1 ]; then
+    echo "Usage: ./build [project]"
+    exit 42
+fi
+
 build "$1"

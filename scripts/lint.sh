@@ -70,4 +70,9 @@ lint() {
     echo "${lint_type} linters ran without errors"
 }
 
+if [ $# -ne 1 ]; then
+    echo "Usage: ./lint [type]"
+    exit 42
+fi
+
 lint "$1"

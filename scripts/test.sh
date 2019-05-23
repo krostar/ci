@@ -57,4 +57,9 @@ test() {
     echo "${test_type} tests ran without errors"
 }
 
+if [ $# -ne 1 ]; then
+    echo "Usage: ./test [type]"
+    exit 42
+fi
+
 test "$1"
