@@ -22,7 +22,7 @@ lint_go() {
 
 lint_markdown() {
     remark \
-        --rc-path "$(dirname "${BASH_SOURCE[0]}")/lint-markdown.yaml" \
+        --rc-path "$(dirname "${BASH_SOURCE[0]}")/lint-markdown-config.yaml" \
         --frail \
         .
 }
