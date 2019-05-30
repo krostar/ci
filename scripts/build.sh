@@ -13,7 +13,7 @@ build_ldflags_xvar() {
     local -r key="$2"
     local -r value="$3"
 
-    echo "-X \"$(project_repo)/${package}.${key}=${value}\""
+    echo "-X $(project_repo)/${package}.${key}=${value}"
 }
 
 build_ldflags() {
@@ -35,7 +35,20 @@ build_ldflags() {
     ldflags+=("$(build_ldflags_xvar "$pkg" "builtAtRaw" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')")")
     ldflags+=("$(build_ldflags_xvar "$pkg" "version" "$(git describe --tags --always --dirty="-dev" 2>/dev/null || echo "0.0.0-0-gmaster")")")
 
-   echo "$(IFS=' ' ; echo "${ldflags[*]}")"
+    echo "${ldflags[*]}"
+}
+
+build_gcflags() {
+    local -a gcflags
+    gcflags+=("all=-nolocalimports")
+    gcflags+=("-trimpath=$(project_path_root)")
+    echo "${gcflags[*]}"
+}
+
+build_asmflags() {
+    local -a asmflags
+    asmflags+=("-trimpath=$(project_path_root)")
+    echo "${asmflags[*]}"
 }
 
 build() {
@@ -53,10 +66,14 @@ build() {
     go generate ./...
 
     # build the binary
-    GOOS="${BUILD_FOR_OS:-$(go env GOOS)}" GOARCH="${BUILD_FOR_ARCH:-$(go env GOARCH)}" CGO_ENABLED="${BUILD_WITH_CGO:=0}" \
-    go build -v \
-        -o "$(project_path_build_bin)/${project_to_build}" \
+    GOROOT_FINAL="${BUILD_FINAL_TREE:-"$(go env GOROOT)"}"          \
+    GOOS="${BUILD_FOR_OS:-"$(go env GOOS)"}"                        \
+    GOARCH="${BUILD_FOR_ARCH:-"$(go env GOARCH)"}"                  \
+    CGO_ENABLED="${BUILD_WITH_CGO:=0}"                              \
+    go build -v -o "$(project_path_build_bin)/${project_to_build}"  \
         -ldflags="$(build_ldflags "$project_to_build" "$compress")" \
+        -gcflags="$(build_gcflags)"                                 \
+        -asmflags="$(build_asmflags)"                               \
         "$project_to_build_path"
 
     if [ "$compress" -eq 1 ]; then
