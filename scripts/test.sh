@@ -23,6 +23,7 @@ test_go() {
     opts+=("-coverprofile=${coverprofile}")
 
     mkdir -p "$coverdir"
+    # cgo is enabled due to the race option
     CGO_ENABLED=1 go test "${opts[@]}" ./...
 }
 
@@ -31,21 +32,19 @@ test() {
     local -a opts
     local cmd
 
-    opts+=("--timeout=${TEST_TIMEOUT:="1m"}")
-    if [ -n "${TEST_RUN:=""}" ]; then
-        opts+=("-run=${TEST_RUN}")
-    fi
-
     case "$test_type" in
     "go")
+        opts+=("--timeout=${TEST_TIMEOUT:="1m"}")
+        if [ -n "${TEST_RUN:=""}" ]; then
+            opts+=("-run=${TEST_RUN}")
+        fi
+        if [ -n "${TEST_SHORT:=""}" ]; then
+            opts+=("-short")
+        fi
         cmd="test_go"
         ;;
     "go-deps")
         cmd="test_go_deps"
-        ;;
-    "go-fast")
-        cmd="test_go"
-        opts+=("-short")
         ;;
     *)
         exit_error 2 "${test_type} is not a test type"
