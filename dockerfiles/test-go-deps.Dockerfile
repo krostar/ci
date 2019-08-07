@@ -1,6 +1,6 @@
 FROM golang:1.12-alpine
 
-RUN apk add --no-cache bash~=4.4 git~=2.20
+RUN apk add --no-cache bash~=5.0 git~=2.22
 
 WORKDIR /app-test
 COPY scripts/common.sh .
