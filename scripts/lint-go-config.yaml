@@ -8,6 +8,7 @@ issues:
 linters:
   disable:
     - "prealloc"
+    - "wsl"
   enable-all: true
 
 linters-settings:

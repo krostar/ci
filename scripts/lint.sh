@@ -15,14 +15,28 @@ lint_dockerfile() {
 }
 
 lint_go() {
+    local config_file
+    if [ -f "$(project_path_root)/.lint-go.yaml" ]; then
+        config_file="$(project_path_root)/.lint-go.yaml"
+    else
+        config_file="$(dirname "${BASH_SOURCE[0]}")/lint-go-config.yaml"
+    fi
+
     go mod download
     CGO_ENABLED=0 golangci-lint run \
-        --config "$(dirname "${BASH_SOURCE[0]}")/lint-go-config.yaml"
+        --config "$config_file"
 }
 
 lint_markdown() {
+    local config_file
+    if [ -f "$(project_path_root)/.lint-markdown.yaml" ]; then
+        config_file="$(project_path_root)/.lint-markdown.yaml"
+    else
+        config_file="$(dirname "${BASH_SOURCE[0]}")/lint-markdown-config.yaml"
+    fi
+
     remark \
-        --rc-path "$(dirname "${BASH_SOURCE[0]}")/lint-markdown-config.yaml" \
+        --rc-path "$config_file" \
         --frail \
         .
 }
@@ -37,6 +51,13 @@ lint_sh() {
 }
 
 lint_yaml() {
+    local config_file
+    if [ -f "$(project_path_root)/.lint-yaml.yaml" ]; then
+        config_file="$(project_path_root)/.lint-yaml.yaml"
+    else
+        config_file="$(dirname "${BASH_SOURCE[0]}")/lint-yaml-config.yaml"
+    fi
+
     yamllint \
         --config-file "$(dirname "${BASH_SOURCE[0]}")/lint-yaml-config.yaml" \
         --strict \
