@@ -17,6 +17,9 @@ linters-settings:
   errcheck:
     check-blank: true
     check-type-assertions: true
+  funlen:
+    lines: 100
+    statements: 75
   gocyclo:
     min-complexity: 13
   govet:
