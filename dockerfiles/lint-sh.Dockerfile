@@ -1,6 +1,6 @@
-FROM koalaman/shellcheck-alpine:v0.6.0
+FROM koalaman/shellcheck-alpine:v0.7.0
 
-RUN apk add --no-cache bash~=4.4
+RUN apk add --no-cache bash~=5.0
 
 WORKDIR /app-lint
 COPY scripts/common.sh .

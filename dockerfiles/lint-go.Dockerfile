@@ -1,6 +1,9 @@
-FROM golang:1.13-alpine
+FROM golang:1.14-alpine
 
-RUN apk add --no-cache bash~=5.0 git~=2.22
+RUN apk add --no-cache \
+    bash~=5.0 \
+    git~=2.24 \
+    build-base~=0.5
 
 RUN go get github.com/golangci/golangci-lint/cmd/golangci-lint
 

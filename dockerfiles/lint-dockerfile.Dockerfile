@@ -1,9 +1,6 @@
-FROM hadolint/hadolint:v1.16.3-debian
+FROM hadolint/hadolint:v1.17.5-alpine
 
-# hadolint ignore=DL3008
-RUN apt-get update && \
-    apt-get install --yes --no-install-recommends bash>=5.0 && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk --no-cache add bash~=5.0
 
 WORKDIR /app-lint
 COPY scripts/common.sh .

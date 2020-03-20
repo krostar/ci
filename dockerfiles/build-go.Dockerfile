@@ -1,9 +1,9 @@
-FROM golang:1.13-alpine
+FROM golang:1.14-alpine
 
 RUN apk --no-cache add \
     bash~=5.0 \
     upx~=3.95 \
-    git~=2.22 \
+    git~=2.24 \
     build-base~=0.5
 
 WORKDIR /app-build
