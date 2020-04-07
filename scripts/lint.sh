@@ -23,7 +23,7 @@ lint_go() {
     fi
 
     go mod download
-    CGO_ENABLED=0 golangci-lint run \
+    CGO_ENABLED=0 GOGC=50 golangci-lint run \
         --timeout "5m"              \
         --config "$config_file"
 }

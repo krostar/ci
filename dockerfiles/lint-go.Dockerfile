@@ -8,7 +8,7 @@ RUN apk add --no-cache \
     build-base~=0.5 \
     curl~=7.67
 
-RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$(go env GOPATH)/bin" v1.24.0
+RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$(go env GOPATH)/bin" v1.23.8
 
 WORKDIR /app-lint
 COPY scripts/common.sh .

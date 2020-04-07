@@ -9,23 +9,19 @@ linters:
   disable:
     - "prealloc"
     - "wsl"
+    - "funlen"
+    - "lll"
   enable-all: true
 
 linters-settings:
   dupl:
     threshold: 100
   errcheck:
-    check-blank: true
     check-type-assertions: true
-  funlen:
-    lines: 100
-    statements: 75
   gocyclo:
     min-complexity: 13
   govet:
     use-installed-packages: true
-  lll:
-    tab-width: 4
   maligned:
     suggest-new: true
   misspell:
