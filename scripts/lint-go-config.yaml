@@ -7,10 +7,10 @@ issues:
 
 linters:
   disable:
-    - "prealloc"
-    - "wsl"
     - "funlen"
     - "lll"
+    - "prealloc"
+    - "wsl"
   enable-all: true
 
 linters-settings:
@@ -20,6 +20,10 @@ linters-settings:
     check-type-assertions: true
   gocyclo:
     min-complexity: 13
+  gomnd:
+    settings:
+      mnd:
+        checks: "case,return"
   govet:
     use-installed-packages: true
   maligned:
@@ -28,5 +32,8 @@ linters-settings:
     locale: "US"
   unparam:
     check-exported: true
+  whitespace:
+    multi-if: true
+    multi-func: true
 
 ...
