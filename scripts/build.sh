@@ -53,7 +53,8 @@ build_asmflags() {
 
 build() {
     local -r project_to_build="$1"
-    local -r project_to_build_path="$(project_path_cmd)/${project_to_build}"
+    local -r project_to_build_path="$(project_path_cmd "$project_to_build")"
+    local -r project_to_build_bin="$(project_path_build_bin "$project_to_build")"
     local -r compress="${BUILD_COMPRESS:-0}"
 
     # test if the project exists
@@ -70,14 +71,14 @@ build() {
     GOOS="${BUILD_FOR_OS:-"$(go env GOOS)"}"                        \
     GOARCH="${BUILD_FOR_ARCH:-"$(go env GOARCH)"}"                  \
     CGO_ENABLED="${BUILD_WITH_CGO:=0}"                              \
-    go build -v -o "$(project_path_build_bin)/${project_to_build}"  \
+    go build -v -o "$project_to_build_bin"                          \
         -ldflags="$(build_ldflags "$project_to_build" "$compress")" \
         -gcflags="$(build_gcflags)"                                 \
         -asmflags="$(build_asmflags)"                               \
         "$project_to_build_path"
 
     if [ "$compress" -eq 1 ]; then
-        upx --brute "$(project_path_build_bin)/${project_to_build}"
+        upx --brute "$project_to_build_bin"
     fi
 }
 

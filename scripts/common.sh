@@ -17,7 +17,16 @@ project_path_root() {
 }
 
 project_path_cmd() {
-    echo "$(project_path_root)/cmd"
+    local -r binary="$1"
+    local path
+
+    path="$(project_path_root)/cmd"
+
+    if ls -d "$(project_path_root)/cmd/*/" &> /dev/null; then
+        path+="/$binary"
+    fi
+
+    echo "$path"
 }
 
 project_path_scripts() {
@@ -25,7 +34,17 @@ project_path_scripts() {
 }
 
 project_path_build_bin() {
-    echo "$(project_path_root)/build/bin"
+    local -r project="$(project_name)"
+    local -r binary="$1"
+    local path
+
+    path="$(project_path_root)/build/bin/$project"
+
+    if [[ "$project" != "$binary" ]]; then
+        path+="-$binary"
+    fi
+
+    echo "$path"
 }
 
 project_repo() {
