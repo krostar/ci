@@ -13,13 +13,13 @@ build_ldflags_xvar() {
     local -r key="$2"
     local -r value="$3"
 
-    echo "-X $(project_repo)/${package}.${key}=${value}"
+    echo "-X ${package}.${key}=${value}"
 }
 
 build_ldflags() {
     local name="$1"
     local -r compress="$2"
-    local -r pkg="internal/pkg/app"
+    local -r pkg="github.com/krostar/cli/app"
     local -a ldflags
 
     if [[ "$name" != "$(project_name)" ]]; then
